@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Shield, Phone, Mail, MapPin, Facebook, Linkedin } from "lucide-react";
+import Image from "next/image";
+import { Phone, Mail, MapPin, Facebook, Linkedin } from "lucide-react";
 
 const SOLUTION_LINKS = [
   { href: "/giai-phap/tem-qr-code", label: "Tem QR Code" },
@@ -21,15 +22,18 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 bg-gold-500 rounded-lg flex items-center justify-center">
-                <Shield className="w-5 h-5 text-navy-900" />
-              </div>
-              <span className="font-heading font-bold text-xl">An Hà</span>
+            <div className="mb-4">
+              <Image
+                src="/images/logo-anha.jpg"
+                alt="An Hà - Giá trị ở niềm tin"
+                width={120}
+                height={48}
+                className="h-12 w-auto brightness-0 invert"
+              />
             </div>
             <p className="text-white/60 text-sm leading-relaxed mb-6">
-              Giải pháp tem chống hàng giả toàn diện, bảo vệ thương hiệu doanh
-              nghiệp Việt từ 2009.
+              Tiên phong trong giải pháp chống hàng giả tại Việt Nam từ 2008 —
+              tem Bộ Công An, Hologram, QR Code và đăng ký sở hữu trí tuệ.
             </p>
             <div className="flex gap-3">
               <a
@@ -95,24 +99,33 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm text-white/60">
                 <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-gold-400" />
-                <span>123 Đường ABC, Phường XYZ, Quận 1, TP.HCM</span>
+                <span>Phòng 207, Khách sạn Thể thao, 15 Lê Văn Thiêm, Thanh Xuân, Hà Nội</span>
               </li>
               <li>
                 <a
-                  href="tel:0901234567"
+                  href="tel:02435558212"
                   className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors"
                 >
                   <Phone className="w-4 h-4 shrink-0 text-gold-400" />
-                  <span>0901 234 567</span>
+                  <span>024.3555.8212</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:info@anha.vn"
+                  href="tel:0936233454"
+                  className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors"
+                >
+                  <Phone className="w-4 h-4 shrink-0 text-gold-400" />
+                  <span>093 6233 454</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:Contact@temchonghanggia.com"
                   className="flex items-center gap-3 text-sm text-white/60 hover:text-white transition-colors"
                 >
                   <Mail className="w-4 h-4 shrink-0 text-gold-400" />
-                  <span>info@anha.vn</span>
+                  <span>Contact@temchonghanggia.com</span>
                 </a>
               </li>
             </ul>
@@ -120,7 +133,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-navy-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/40">
-          <p>© 2024 Công ty TNHH An Hà. Bảo lưu mọi quyền.</p>
+          <p>© 2008–2026 Công ty Cổ phần Giải pháp chống giả An Hà. Bảo lưu mọi quyền.</p>
           <div className="flex gap-6">
             <Link href="/chinh-sach-bao-mat" className="hover:text-white/70 transition-colors">
               Chính sách bảo mật

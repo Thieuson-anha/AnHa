@@ -2,114 +2,132 @@ import type { Product, CaseStudy, Stat } from "@/types";
 
 export const PRODUCTS: Product[] = [
   {
-    id: "tem-qr",
-    name: "Tem QR Code Bảo Mật",
-    slug: "tem-qr-code",
+    id: "tem-bo-cong-an",
+    name: "Tem Chống Giả Bộ Công An",
+    slug: "tem-bo-cong-an",
     description:
-      "Tem QR code đa lớp bảo mật, tích hợp hệ thống tra cứu online real-time. Người tiêu dùng quét mã xác thực hàng thật ngay lập tức.",
+      "Tem chống hàng giả do cơ sở in ấn của Bộ Công An trực tiếp sản xuất, đảm bảo đầy đủ pháp lý. In trên decal vỡ chống tái sử dụng, tích hợp công nghệ chống giả hiện đại nhất.",
     features: [
-      "Mã QR động, mỗi lần quét khác nhau",
-      "Hệ thống tra cứu cloud 99.9% uptime",
-      "Chống photocopy, chống làm giả",
-      "Dashboard theo dõi quét mã real-time",
-      "Tích hợp app iOS/Android",
+      "Do Bộ Công An cấp phép và sản xuất trực tiếp",
+      "Decal vỡ chống bóc tái sử dụng",
+      "Công nghệ chống giả tiên tiến nhất hiện nay",
+      "Được cơ quan thẩm quyền và doanh nghiệp công nhận",
+      "Tư vấn hồ sơ và cấp phép miễn phí",
     ],
-    useCases: ["Thực phẩm & đồ uống", "Dược phẩm", "Mỹ phẩm cao cấp"],
-    imageUrl: "/images/products/tem-qr.webp",
-    icon: "QrCode",
+    useCases: ["Thực phẩm & đồ uống", "Dược phẩm", "Hàng tiêu dùng"],
+    imageUrl: "/images/products/tem-bca.webp",
+    icon: "Shield",
   },
   {
     id: "tem-hologram",
-    name: "Tem Hologram 3D",
+    name: "Tem Hologram 7 Màu",
     slug: "tem-hologram",
     description:
-      "Tem hologram công nghệ cao với hiệu ứng 3D phức tạp, không thể sao chép bằng thiết bị thông thường. Bảo vệ thương hiệu cao cấp.",
+      "Tem hologram sản xuất bằng công nghệ laser tiên tiến, không sử dụng mực in. Hiệu ứng 7 màu biến đổi góc nhìn, không thể sao chép bằng thiết bị thông thường.",
     features: [
-      "Hologram 3D góc nhìn đa chiều",
-      "Lớp kim loại hoá học đặc biệt",
-      "Tích hợp serial number ẩn",
-      "Hiệu ứng màu sắc biến đổi",
-      "Tiêu chuẩn ISO/IEC 27001",
+      "Công nghệ laser tiên tiến, không dùng mực",
+      "Hiệu ứng 7 màu đổi góc độ nhìn",
+      "Tích hợp mã QR tra cứu thông tin sản phẩm",
+      "Không thể làm giả bằng thiết bị thông thường",
+      "Phổ biến nhất trong sản xuất và kinh doanh hiện nay",
     ],
-    useCases: ["Đồ điện tử", "Phụ kiện cao cấp", "Tài liệu pháp lý"],
+    useCases: ["Điện tử & công nghệ", "Mỹ phẩm cao cấp", "Phụ kiện thương hiệu"],
     imageUrl: "/images/products/tem-hologram.webp",
     icon: "Fingerprint",
   },
   {
-    id: "tem-serial",
-    name: "Tem Serial Number",
-    slug: "tem-serial-number",
+    id: "tem-qr-smartcheck",
+    name: "Tem QR Code Smartcheck",
+    slug: "tem-qr-code",
     description:
-      "Tem mã serial duy nhất kết hợp mực UV ẩn, bảo vệ 3 lớp. Phù hợp sản xuất số lượng lớn với chi phí tối ưu.",
+      "Giải pháp xác thực điện tử: người tiêu dùng quét QR bằng smartphone, hệ thống trả về thông tin sản phẩm và nhà sản xuất tức thì — chống hàng giả thông minh.",
     features: [
-      "Serial number duy nhất toàn cầu",
-      "Mực UV chỉ thấy dưới đèn tia cực tím",
-      "Chất liệu tự phá hủy khi bóc",
-      "In số lượng lớn, giá thành cạnh tranh",
-      "Tích hợp barcode/QR linh hoạt",
+      "Quét mã bằng bất kỳ điện thoại thông minh nào",
+      "Hiển thị thông tin sản phẩm và nhà sản xuất",
+      "Hệ thống theo dõi quét mã real-time",
+      "Phát hiện bất thường và cảnh báo tự động",
+      "Tích hợp app iOS/Android",
     ],
-    useCases: ["May mặc & thời trang", "Thiết bị công nghiệp", "Hàng tiêu dùng"],
-    imageUrl: "/images/products/tem-serial.webp",
-    icon: "Shield",
+    useCases: ["May mặc & thời trang", "Thực phẩm đóng gói", "Dược phẩm"],
+    imageUrl: "/images/products/tem-qr.webp",
+    icon: "QrCode",
+  },
+];
+
+export const EXTRA_SERVICES = [
+  {
+    icon: "BookOpen",
+    title: "Đăng ký Bản quyền",
+    description: "Bảo hộ quyền sở hữu trí tuệ cho sản phẩm và thương hiệu của doanh nghiệp theo quy định pháp luật Việt Nam.",
+  },
+  {
+    icon: "Tag",
+    title: "Đăng ký Nhãn hiệu",
+    description: "Đăng ký nhãn hiệu độc quyền trong nước và quốc tế, bảo vệ thương hiệu doanh nghiệp khỏi hàng nhái.",
+  },
+  {
+    icon: "Barcode",
+    title: "Đăng ký Mã vạch",
+    description: "Đăng ký mã số mã vạch sản phẩm chuẩn GS1, phục vụ phân phối trong nước và xuất khẩu quốc tế.",
   },
 ];
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
-    id: "vinamilk",
-    title: "Bảo vệ 500 triệu sản phẩm sữa mỗi năm",
-    slug: "bao-ve-san-pham-sua",
-    client: "Tập đoàn Sữa A",
+    id: "thuc-pham",
+    title: "Bảo vệ chuỗi thực phẩm khỏi hàng giả",
+    slug: "bao-ve-thuc-pham",
+    client: "Tập đoàn Thực phẩm A",
     industry: "Thực phẩm & đồ uống",
     challenge:
-      "Hàng giả tràn lan trên thị trường, thiệt hại ước tính 50 tỷ/năm. Người tiêu dùng mất niềm tin.",
+      "Hàng giả tràn lan kênh phân phối truyền thống, thiệt hại ước tính hàng chục tỷ mỗi năm. Người tiêu dùng mất niềm tin vào sản phẩm chính hãng.",
     solution:
-      "Triển khai tem QR Code bảo mật cho 12 dòng sản phẩm, tích hợp hệ thống tra cứu và cảnh báo tự động khi phát hiện bất thường.",
+      "Triển khai tem Bộ Công An kết hợp QR Smartcheck cho toàn bộ dây chuyền. Tích hợp hệ thống cảnh báo tự động khi phát hiện quét mã bất thường.",
     result:
-      "Giảm 94% hàng giả sau 6 tháng. Niềm tin người tiêu dùng tăng 37%. ROI 850% trong năm đầu.",
+      "Giảm hơn 90% hàng giả sau 6 tháng. Niềm tin người tiêu dùng phục hồi rõ rệt. Doanh số tăng trưởng hai chữ số.",
     testimonial:
-      "An Hà giúp chúng tôi bảo vệ thương hiệu một cách toàn diện. Hệ thống tra cứu real-time giúp phát hiện hàng giả trong 24 giờ.",
-    testimonialAuthor: "Giám đốc An Toàn Sản Phẩm",
-    imageUrl: "/images/cases/dairy.webp",
+      "An Hà không chỉ cung cấp tem — họ đồng hành cùng chúng tôi từ tư vấn đến triển khai, hậu mãi chu đáo và chuyên nghiệp.",
+    testimonialAuthor: "Giám đốc Điều hành",
+    imageUrl: "/images/cases/food.webp",
   },
   {
-    id: "pharma",
-    title: "Bảo mật dược phẩm đạt chuẩn WHO",
+    id: "duoc-pham",
+    title: "Bảo mật dược phẩm đạt chuẩn quốc tế",
     slug: "bao-mat-duoc-pham",
-    client: "Công ty Dược B",
+    client: "Công ty Dược phẩm B",
     industry: "Dược phẩm",
     challenge:
-      "Thuốc giả nguy hiểm đến tính mạng người bệnh, ảnh hưởng nghiêm trọng đến uy tín thương hiệu.",
+      "Thuốc giả gây nguy hiểm tính mạng người bệnh và ảnh hưởng nghiêm trọng đến uy tín thương hiệu 20 năm xây dựng.",
     solution:
-      "Tem Hologram 3D kết hợp serial number, tuân thủ tiêu chuẩn GMP và WHO về chống giả dược phẩm.",
+      "Tem Hologram 7 màu kết hợp QR Code, đáp ứng tiêu chuẩn GMP và yêu cầu chống giả dược phẩm của Bộ Y tế.",
     result:
-      "100% dây chuyền sản xuất được bảo vệ. Vượt kiểm định WHO. Zero incident hàng giả sau 2 năm.",
+      "Toàn bộ dây chuyền được bảo vệ. Vượt kiểm định của Bộ Y tế. Không có sự cố hàng giả trong 2 năm liên tiếp.",
     testimonial:
-      "Giải pháp của An Hà giúp chúng tôi đạt chứng nhận WHO-GMP và mở rộng xuất khẩu sang 5 quốc gia.",
-    testimonialAuthor: "CEO Công ty Dược",
+      "Giải pháp của An Hà giúp chúng tôi tự tin mở rộng thị trường xuất khẩu với tem bảo mật đạt tiêu chuẩn quốc tế.",
+    testimonialAuthor: "Giám đốc Sản xuất",
     imageUrl: "/images/cases/pharma.webp",
   },
   {
-    id: "fashion",
-    title: "Chống hàng nhái thời trang cao cấp",
+    id: "thoi-trang",
+    title: "Bảo vệ thương hiệu thời trang khỏi hàng nhái",
     slug: "chong-hang-nhai-thoi-trang",
     client: "Thương hiệu Thời trang C",
     industry: "May mặc & thời trang",
     challenge:
-      "Hàng nhái chất lượng kém bán giá cao gấp 3 lần hàng thật, phá hoại định vị thương hiệu cao cấp.",
+      "Hàng nhái chất lượng kém bán tràn lan với nhãn hiệu giả, phá vỡ định vị thương hiệu cao cấp và thiệt hại doanh thu.",
     solution:
-      "Tem Serial Number tự phá hủy, tích hợp QR tra cứu, áp dụng cho 200+ SKU trên toàn bộ sản phẩm.",
+      "Tem Hologram 7 màu tự phá hủy khi bóc, tích hợp QR tra cứu, áp dụng đồng loạt trên toàn bộ sản phẩm.",
     result:
-      "Hàng nhái giảm 89%. Doanh số chính hãng tăng 23%. Khách hàng trung thành tăng 41%.",
+      "Hàng nhái giảm trên 85%. Khách hàng trung thành tăng đáng kể. Thương hiệu được bảo vệ toàn diện.",
     imageUrl: "/images/cases/fashion.webp",
   },
 ];
 
 export const STATS: Stat[] = [
-  { value: "500+", label: "Doanh nghiệp tin dùng", description: "Trên toàn quốc" },
-  { value: "2 tỷ+", label: "Tem đã cung cấp", description: "Từ 2015 đến nay" },
-  { value: "94%", label: "Giảm hàng giả", description: "Trung bình sau 6 tháng" },
-  { value: "15 năm", label: "Kinh nghiệm", description: "Trong ngành chống giả" },
+  { value: "2008", label: "Năm thành lập", description: "Tiên phong trong ngành chống giả" },
+  { value: "18+", label: "Năm kinh nghiệm", description: "Đối tác tin cậy của doanh nghiệp" },
+  { value: "1000s", label: "Doanh nghiệp tin dùng", description: "Trên toàn quốc" },
+  { value: "24/7", label: "Hỗ trợ tư vấn", description: "Miễn phí trong ngày làm việc" },
 ];
 
 export const INDUSTRIES = [

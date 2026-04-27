@@ -3,18 +3,18 @@ import { Award, Users, Factory, Globe } from "lucide-react";
 import CTASection from "@/components/sections/CTASection";
 
 export const metadata: Metadata = {
-  title: "Về An Hà - 15 năm bảo vệ thương hiệu Việt",
+  title: "Về An Hà - 18+ năm tiên phong chống hàng giả tại Việt Nam",
   description:
-    "An Hà thành lập 2009, hơn 15 năm kinh nghiệm cung cấp giải pháp tem chống hàng giả cho 500+ doanh nghiệp Việt Nam.",
+    "Công ty Cổ phần Giải pháp chống giả An Hà thành lập 2008, tiên phong cung cấp tem chống giả Bộ Công An, Hologram, QR Code và đăng ký sở hữu trí tuệ.",
 };
 
 const MILESTONES = [
-  { year: "2009", event: "Thành lập công ty, bắt đầu nghiên cứu tem chống giả" },
-  { year: "2012", event: "Ra mắt dòng Tem QR Code đầu tiên tại Việt Nam" },
-  { year: "2015", event: "Đạt chứng nhận ISO/IEC 27001 về bảo mật thông tin" },
-  { year: "2018", event: "Mở rộng sang Tem Hologram 3D, phục vụ 200+ khách hàng" },
-  { year: "2021", event: "Ra mắt hệ thống dashboard giám sát real-time" },
-  { year: "2024", event: "500+ doanh nghiệp, 2 tỷ tem đã cung cấp" },
+  { year: "2008", event: "Thành lập Công ty Cổ phần Giải pháp chống giả An Hà tại Hà Nội" },
+  { year: "2010", event: "Trở thành đại lý chính thức tem chống giả Bộ Công An" },
+  { year: "2013", event: "Ra mắt giải pháp Tem Hologram 7 màu công nghệ laser" },
+  { year: "2016", event: "Triển khai QR Code Smartcheck — xác thực điện tử bằng smartphone" },
+  { year: "2019", event: "Mở rộng dịch vụ đăng ký nhãn hiệu, bản quyền và mã vạch" },
+  { year: "2026", event: "Hàng nghìn doanh nghiệp tin dùng, tư vấn miễn phí 24/7" },
 ];
 
 const VALUES = [
@@ -47,7 +47,8 @@ export default function VeChungToiPage() {
         <div className="section-container text-center">
           <h1 className="text-4xl font-extrabold text-white mb-4">Về An Hà</h1>
           <p className="text-white/60 text-lg max-w-2xl mx-auto">
-            15 năm bảo vệ thương hiệu doanh nghiệp Việt — từ startup nhỏ đến tập đoàn đa quốc gia.
+            Tiên phong trong giải pháp chống hàng giả tại Việt Nam — 18+ năm kinh nghiệm,
+            hàng nghìn doanh nghiệp tin dùng.
           </p>
         </div>
       </div>
@@ -58,18 +59,20 @@ export default function VeChungToiPage() {
           <h2 className="section-heading mb-6">Câu chuyện của chúng tôi</h2>
           <div className="space-y-4 text-gray-600 leading-relaxed">
             <p>
-              Thành lập năm 2009 tại TP.HCM, An Hà ra đời từ nhận thức rõ ràng:
-              hàng giả không chỉ gây thiệt hại kinh tế mà còn đe dọa sức khỏe
-              người tiêu dùng và phá hoại thương hiệu mà doanh nghiệp đã dày công xây dựng.
+              Thành lập năm 2008 tại Hà Nội, Công ty Cổ phần Giải pháp chống giả An Hà
+              là tổ chức tiên phong trong lĩnh vực cung cấp các giải pháp chống hàng giả,
+              hàng nhái cho các tổ chức và doanh nghiệp đang hoạt động tại Việt Nam.
             </p>
             <p>
-              Với đội ngũ kỹ sư chuyên về bảo mật in ấn và công nghệ xác thực,
-              chúng tôi đã phát triển hệ sinh thái tem chống hàng giả toàn diện —
-              kết hợp vật liệu bảo mật cao cấp với nền tảng số hiện đại.
+              Với gần 20 năm kinh nghiệm, An Hà cung cấp đầy đủ các giải pháp: tem chống
+              giả Bộ Công An có đầy đủ pháp lý, tem Hologram 7 màu công nghệ laser tiên
+              tiến, QR Code Smartcheck xác thực điện tử — cùng dịch vụ đăng ký bản quyền,
+              nhãn hiệu và mã vạch sản phẩm.
             </p>
             <p>
-              Ngày nay, hơn 500 doanh nghiệp từ thực phẩm, dược phẩm đến thời
-              trang cao cấp tin tưởng An Hà để bảo vệ sản phẩm và thương hiệu của mình.
+              Hàng nghìn doanh nghiệp sản xuất, kinh doanh trên toàn quốc đã và đang sử dụng
+              giải pháp của An Hà để bảo vệ thương hiệu và niềm tin của người tiêu dùng.
+              Đội ngũ chuyên gia tư vấn miễn phí 24/7 trong ngày làm việc.
             </p>
           </div>
         </div>

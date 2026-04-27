@@ -11,25 +11,31 @@ export const metadata: Metadata = {
 const CONTACT_INFO = [
   {
     icon: Phone,
+    label: "Điện thoại",
+    value: "024.3555.8212",
+    href: "tel:02435558212",
+  },
+  {
+    icon: Phone,
     label: "Hotline",
-    value: "0901 234 567",
-    href: "tel:0901234567",
+    value: "093 6233 454",
+    href: "tel:0936233454",
   },
   {
     icon: Mail,
     label: "Email",
-    value: "info@anha.vn",
-    href: "mailto:info@anha.vn",
+    value: "Contact@temchonghanggia.com",
+    href: "mailto:Contact@temchonghanggia.com",
   },
   {
     icon: MapPin,
     label: "Địa chỉ",
-    value: "123 Đường ABC, Phường XYZ, Quận 1, TP.HCM",
+    value: "Phòng 207, Khách sạn Thể thao, 15 Lê Văn Thiêm, Thanh Xuân, Hà Nội",
   },
   {
     icon: Clock,
-    label: "Giờ làm việc",
-    value: "Thứ 2 – Thứ 6: 8:00 – 17:30",
+    label: "Hỗ trợ tư vấn",
+    value: "Miễn phí 24/7 trong ngày làm việc",
   },
 ];
 
