@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Contact {
+  id                String        @id @default(cuid())
+  companyName       String
+  industry          String
+  estimatedQuantity String
+  contactName       String
+  email             String
+  phone             String
+  message           String?
+  status            ContactStatus @default(NEW)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String
+  features    String[]
+  useCases    String[]
+  imageUrl    String
+  icon        String
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  @@index([slug])
+}
+
+model CaseStudy {
+  id                String   @id @default(cuid())
+  title             String
+  slug              String   @unique
+  client            String
+  industry          String
+  challenge         String
+  solution          String
+  result            String
+  testimonial       String?
+  testimonialAuthor String?
+  imageUrl          String
+  isPublished       Boolean  @default(true)
+  createdAt         DateTime @default(now())
+
+  @@index([slug])
+  @@index([industry])
+}
+
+enum ContactStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CLOSED
+}
