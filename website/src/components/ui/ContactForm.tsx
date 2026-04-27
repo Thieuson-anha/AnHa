@@ -21,6 +21,53 @@ const EMPTY_FORM: ContactFormData = {
 const PHONE_RE = /^(0|\+84)[0-9]{9}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const INDUSTRY_LABEL: Record<string, string> = {
+  "thuc-pham": "Thực phẩm & đồ uống",
+  "duoc-pham": "Dược phẩm",
+  "my-pham": "Mỹ phẩm & làm đẹp",
+  "dien-tu": "Điện tử & công nghệ",
+  "may-mac": "May mặc & thời trang",
+  "khac": "Ngành khác",
+};
+
+const QUANTITY_LABEL: Record<string, string> = {
+  "duoi-10000": "Dưới 10,000 tem/năm",
+  "10000-50000": "10,000 – 50,000 tem/năm",
+  "50000-200000": "50,000 – 200,000 tem/năm",
+  "tren-200000": "Trên 200,000 tem/năm",
+};
+
+// Client-side Telegram fallback (used when API route unavailable e.g. static hosting)
+const TG_TOKEN = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
+const TG_CHAT = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
+
+async function sendTelegramClientSide(form: ContactFormData): Promise<boolean> {
+  if (!TG_TOKEN || !TG_CHAT) return false;
+  try {
+    const message =
+      `🔔 <b>Lead mới từ website An Hà</b>\n\n` +
+      `🏢 <b>Công ty:</b> ${form.companyName}\n` +
+      `🏭 <b>Ngành:</b> ${INDUSTRY_LABEL[form.industry] ?? form.industry}\n` +
+      `📦 <b>Số lượng:</b> ${QUANTITY_LABEL[form.estimatedQuantity] ?? form.estimatedQuantity}\n` +
+      `👤 <b>Liên hệ:</b> ${form.contactName}\n` +
+      `📞 <b>Điện thoại:</b> ${form.phone}\n` +
+      `📧 <b>Email:</b> ${form.email}\n` +
+      `💬 <b>Ghi chú:</b> ${form.message || "Không có"}`;
+
+    const res = await fetch(
+      `https://api.telegram.org/bot${TG_TOKEN}/sendMessage`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: TG_CHAT, text: message, parse_mode: "HTML" }),
+      }
+    );
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 function validate(form: ContactFormData): FieldErrors {
   const errs: FieldErrors = {};
   if (!form.companyName.trim()) errs.companyName = "Vui lòng nhập tên công ty";
@@ -33,17 +80,10 @@ function validate(form: ContactFormData): FieldErrors {
   return errs;
 }
 
-const INDUSTRY_LABEL: Record<string, string> = Object.fromEntries(
-  INDUSTRIES.map((i) => [i.value, i.label])
-);
-const QUANTITY_LABEL: Record<string, string> = Object.fromEntries(
-  QUANTITIES.map((q) => [q.value, q.label])
-);
-
 export default function ContactForm() {
   const [form, setForm] = useState<ContactFormData>(EMPTY_FORM);
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -55,7 +95,7 @@ export default function ContactForm() {
     }
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const fieldErrors = validate(form);
     if (Object.keys(fieldErrors).length > 0) {
@@ -65,27 +105,40 @@ export default function ContactForm() {
 
     setStatus("loading");
 
-    const subject = encodeURIComponent(
-      `[Yêu cầu tư vấn tem] ${form.companyName}`
-    );
-    const body = encodeURIComponent(
-      [
-        `Tên công ty: ${form.companyName}`,
-        `Ngành hàng: ${INDUSTRY_LABEL[form.industry] ?? form.industry}`,
-        `Số lượng tem/năm: ${QUANTITY_LABEL[form.estimatedQuantity] ?? form.estimatedQuantity}`,
-        `Người liên hệ: ${form.contactName}`,
-        `Điện thoại: ${form.phone}`,
-        `Email: ${form.email}`,
-        `Thông tin thêm: ${form.message || "Không có"}`,
-      ].join("\n")
-    );
+    // Normalize phone (strip spaces) before sending
+    const payload = { ...form, phone: form.phone.replace(/\s/g, "") };
 
-    window.location.href = `mailto:Contact@temchonghanggia.com?subject=${subject}&body=${body}`;
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    setTimeout(() => {
-      setStatus("success");
-      setForm(EMPTY_FORM);
-    }, 800);
+      if (res.ok) {
+        setStatus("success");
+        setForm(EMPTY_FORM);
+        return;
+      }
+
+      // Server returned error with field validation details
+      const data = await res.json().catch(() => ({}));
+      if (data.errors) {
+        setErrors(data.errors);
+        setStatus("idle");
+        return;
+      }
+    } catch {
+      // API unavailable (static hosting) — use client-side Telegram fallback
+      const sent = await sendTelegramClientSide(payload);
+      if (sent) {
+        setStatus("success");
+        setForm(EMPTY_FORM);
+        return;
+      }
+    }
+
+    setStatus("error");
   }
 
   if (status === "success") {
@@ -95,15 +148,15 @@ export default function ContactForm() {
           <CheckCircle className="w-8 h-8 text-green-600" />
         </div>
         <h3 className="text-xl font-bold text-gray-900 mb-2">
-          Đã mở ứng dụng email!
+          Đã nhận yêu cầu của bạn!
         </h3>
         <p className="text-gray-600 mb-1">
-          Vui lòng gửi email đã được điền sẵn thông tin trong ứng dụng email của bạn.
+          Chuyên gia An Hà sẽ liên hệ với bạn trong vòng 24 giờ làm việc.
         </p>
         <p className="text-gray-500 text-sm">
-          Hoặc gọi trực tiếp:{" "}
+          Cần hỗ trợ ngay?{" "}
           <a href="tel:0936233454" className="text-navy-800 font-semibold">
-            093 6233 454
+            Gọi 093 6233 454
           </a>
         </p>
         <button
@@ -179,7 +232,7 @@ export default function ContactForm() {
             type="tel"
             value={form.phone}
             onChange={handleChange}
-            placeholder="0901 234 567"
+            placeholder="0901234567"
             className={cn("form-input", errors.phone && "border-red-400")}
           />
         </Field>
@@ -207,6 +260,16 @@ export default function ContactForm() {
         />
       </Field>
 
+      {status === "error" && (
+        <p className="text-red-500 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3">
+          Có lỗi xảy ra. Vui lòng thử lại hoặc gọi{" "}
+          <a href="tel:0936233454" className="font-semibold underline">
+            093 6233 454
+          </a>
+          .
+        </p>
+      )}
+
       <button
         type="submit"
         disabled={status === "loading"}
@@ -215,7 +278,7 @@ export default function ContactForm() {
         {status === "loading" ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin" />
-            Đang xử lý...
+            Đang gửi...
           </>
         ) : (
           "Gửi yêu cầu tư vấn"
