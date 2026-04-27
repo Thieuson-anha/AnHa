@@ -18,10 +18,32 @@ const EMPTY_FORM: ContactFormData = {
   message: "",
 };
 
+const PHONE_RE = /^(0|\+84)[0-9]{9}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validate(form: ContactFormData): FieldErrors {
+  const errs: FieldErrors = {};
+  if (!form.companyName.trim()) errs.companyName = "Vui lòng nhập tên công ty";
+  if (!form.industry) errs.industry = "Vui lòng chọn ngành hàng";
+  if (!form.estimatedQuantity) errs.estimatedQuantity = "Vui lòng chọn số lượng";
+  if (!form.contactName.trim()) errs.contactName = "Vui lòng nhập tên người liên hệ";
+  if (!PHONE_RE.test(form.phone.replace(/\s/g, "")))
+    errs.phone = "Số điện thoại không hợp lệ (VD: 0901234567)";
+  if (!EMAIL_RE.test(form.email)) errs.email = "Email không hợp lệ";
+  return errs;
+}
+
+const INDUSTRY_LABEL: Record<string, string> = Object.fromEntries(
+  INDUSTRIES.map((i) => [i.value, i.label])
+);
+const QUANTITY_LABEL: Record<string, string> = Object.fromEntries(
+  QUANTITIES.map((q) => [q.value, q.label])
+);
+
 export default function ContactForm() {
   const [form, setForm] = useState<ContactFormData>(EMPTY_FORM);
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -33,34 +55,37 @@ export default function ContactForm() {
     }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const fieldErrors = validate(form);
+    if (Object.keys(fieldErrors).length > 0) {
+      setErrors(fieldErrors);
+      return;
+    }
+
     setStatus("loading");
-    setErrors({});
 
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
+    const subject = encodeURIComponent(
+      `[Yêu cầu tư vấn tem] ${form.companyName}`
+    );
+    const body = encodeURIComponent(
+      [
+        `Tên công ty: ${form.companyName}`,
+        `Ngành hàng: ${INDUSTRY_LABEL[form.industry] ?? form.industry}`,
+        `Số lượng tem/năm: ${QUANTITY_LABEL[form.estimatedQuantity] ?? form.estimatedQuantity}`,
+        `Người liên hệ: ${form.contactName}`,
+        `Điện thoại: ${form.phone}`,
+        `Email: ${form.email}`,
+        `Thông tin thêm: ${form.message || "Không có"}`,
+      ].join("\n")
+    );
 
-      if (!res.ok) {
-        if (data.errors) {
-          setErrors(data.errors);
-          setStatus("idle");
-        } else {
-          setStatus("error");
-        }
-        return;
-      }
+    window.location.href = `mailto:Contact@temchonghanggia.com?subject=${subject}&body=${body}`;
 
+    setTimeout(() => {
       setStatus("success");
       setForm(EMPTY_FORM);
-    } catch {
-      setStatus("error");
-    }
+    }, 800);
   }
 
   if (status === "success") {
@@ -70,10 +95,16 @@ export default function ContactForm() {
           <CheckCircle className="w-8 h-8 text-green-600" />
         </div>
         <h3 className="text-xl font-bold text-gray-900 mb-2">
-          Gửi thành công!
+          Đã mở ứng dụng email!
         </h3>
-        <p className="text-gray-600">
-          Chúng tôi sẽ liên hệ với bạn trong vòng 24 giờ làm việc.
+        <p className="text-gray-600 mb-1">
+          Vui lòng gửi email đã được điền sẵn thông tin trong ứng dụng email của bạn.
+        </p>
+        <p className="text-gray-500 text-sm">
+          Hoặc gọi trực tiếp:{" "}
+          <a href="tel:0936233454" className="text-navy-800 font-semibold">
+            093 6233 454
+          </a>
         </p>
         <button
           className="mt-6 text-navy-800 font-semibold text-sm underline"
@@ -95,7 +126,6 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="Công ty TNHH ABC"
             className={cn("form-input", errors.companyName && "border-red-400")}
-            required
           />
         </Field>
 
@@ -105,7 +135,6 @@ export default function ContactForm() {
             value={form.industry}
             onChange={handleChange}
             className={cn("form-input", errors.industry && "border-red-400")}
-            required
           >
             <option value="">Chọn ngành hàng</option>
             {INDUSTRIES.map((opt) => (
@@ -123,7 +152,6 @@ export default function ContactForm() {
           value={form.estimatedQuantity}
           onChange={handleChange}
           className={cn("form-input", errors.estimatedQuantity && "border-red-400")}
-          required
         >
           <option value="">Chọn số lượng/năm</option>
           {QUANTITIES.map((opt) => (
@@ -142,7 +170,6 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="Nguyễn Văn A"
             className={cn("form-input", errors.contactName && "border-red-400")}
-            required
           />
         </Field>
 
@@ -154,7 +181,6 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="0901 234 567"
             className={cn("form-input", errors.phone && "border-red-400")}
-            required
           />
         </Field>
       </div>
@@ -167,7 +193,6 @@ export default function ContactForm() {
           onChange={handleChange}
           placeholder="contact@congty.com"
           className={cn("form-input", errors.email && "border-red-400")}
-          required
         />
       </Field>
 
@@ -182,12 +207,6 @@ export default function ContactForm() {
         />
       </Field>
 
-      {status === "error" && (
-        <p className="text-red-500 text-sm bg-red-50 border border-red-200 rounded-lg px-4 py-3">
-          Có lỗi xảy ra. Vui lòng thử lại hoặc gọi hotline 0901 234 567.
-        </p>
-      )}
-
       <button
         type="submit"
         disabled={status === "loading"}
@@ -196,7 +215,7 @@ export default function ContactForm() {
         {status === "loading" ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin" />
-            Đang gửi...
+            Đang xử lý...
           </>
         ) : (
           "Gửi yêu cầu tư vấn"
