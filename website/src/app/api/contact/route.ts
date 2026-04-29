@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validation";
+import { prisma } from "@/lib/db";
 import { z } from "zod";
 
 const INDUSTRY_LABEL: Record<string, string> = {
@@ -74,8 +75,12 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const data = contactSchema.parse(body);
 
-    // Run Telegram + email in parallel, don't fail if either errors
-    await Promise.allSettled([sendTelegram(data), sendEmail(data)]);
+    // Save to DB + send notifications in parallel, don't fail if any errors
+    await Promise.allSettled([
+      prisma.contact.create({ data }).catch(() => null),
+      sendTelegram(data),
+      sendEmail(data),
+    ]);
 
     return NextResponse.json(
       { success: true, message: "Chúng tôi sẽ liên hệ trong 24h." },

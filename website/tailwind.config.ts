@@ -9,18 +9,22 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Dark backgrounds — deep warm charcoal with red undertones (hero, footer, sidebar)
         navy: {
-          900: "#0f2744",
-          800: "#1e3a5f",
-          700: "#2d5280",
-          600: "#3d6a9e",
-          500: "#4d83bd",
+          50:  "#FDF8F8",
+          100: "#F5ECEC",
+          500: "#7A3838",
+          600: "#5C2A2A",
+          700: "#3F1E1E",
+          800: "#2B1515",
+          900: "#170E0E",
         },
+        // Brand red — from the logo "A" (CTA buttons, badges, accents)
         gold: {
-          300: "#e0cc8a",
-          400: "#d4b86a",
-          500: "#c9a84c",
-          600: "#b8942e",
+          300: "#F4AAAA",
+          400: "#E86060",
+          500: "#D42B2B",
+          600: "#B51E1E",
         },
       },
       fontFamily: {
@@ -29,7 +33,7 @@ const config: Config = {
       },
       backgroundImage: {
         "hero-pattern":
-          "radial-gradient(circle at 25% 25%, rgba(61,106,158,0.15) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(201,168,76,0.08) 0%, transparent 50%)",
+          "radial-gradient(circle at 25% 25%, rgba(212,43,43,0.12) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(43,21,21,0.3) 0%, transparent 50%)",
       },
       animation: {
         "fade-up": "fadeUp 0.6s ease-out forwards",

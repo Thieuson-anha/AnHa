@@ -35,13 +35,13 @@ export default function Header() {
       <div className="section-container">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex items-center bg-white/95 rounded-lg px-2 py-1">
             <Image
               src="/images/logo-anha.jpg"
               alt="An Hà - Giá trị ở niềm tin"
-              width={140}
-              height={56}
-              className="h-12 w-auto"
+              width={130}
+              height={52}
+              className="h-10 w-auto"
               priority
             />
           </Link>
