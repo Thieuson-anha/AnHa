@@ -74,3 +74,66 @@ enum ContactStatus {
   QUALIFIED
   CLOSED
 }
+
+// ─── TXNG Digital Signature Models ───────────────────────────────────────────
+
+model TxngDocument {
+  id                  String             @id @default(cuid())
+  documentCode        String             @unique
+  documentType        TxngDocumentType
+  submittedBy         String
+  submitterEmail      String
+  contentHash         String             // SHA-256 of originalContent
+  originalContent     String             // Base64-encoded document bytes
+  companySignature    String             // Chữ ký số của công ty (Hex)
+  companyCertSerial   String             // Số serial chứng chỉ số của công ty
+  anhaSignature       String?            // Chữ ký số của An Hà (Hex)
+  anhaCertSerial      String?            // Số serial chứng chỉ số của An Hà
+  signedPayload       String?            // JSON payload đầy đủ 2 chữ ký gửi bộ
+  status              TxngDocumentStatus @default(PENDING_REVIEW)
+  rejectionReason     String?
+  approvedBy          String?
+  approvedAt          DateTime?
+  signedAt            DateTime?
+  ministryRef         String?            // Mã xác nhận từ hệ thống bộ
+  ministrySubmittedAt DateTime?
+  ministryResponse    String?            // JSON response từ bộ
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  auditLogs           TxngAuditLog[]
+
+  @@index([status])
+  @@index([submitterEmail])
+  @@index([documentCode])
+  @@index([createdAt])
+}
+
+model TxngAuditLog {
+  id         String       @id @default(cuid())
+  documentId String
+  document   TxngDocument @relation(fields: [documentId], references: [id])
+  action     String       // SUBMITTED | APPROVED | REJECTED | SIGNED | MINISTRY_SENT | MINISTRY_FAILED
+  actor      String       // Email hoặc "system"
+  metadata   String?      // JSON string – dữ liệu bổ sung tuỳ action
+  createdAt  DateTime     @default(now())
+
+  @@index([documentId])
+  @@index([createdAt])
+}
+
+enum TxngDocumentType {
+  ORDER          // Đơn đặt hàng tem
+  CONTRACT       // Hợp đồng
+  DECLARATION    // Tờ khai
+  CERTIFICATION  // Chứng nhận
+}
+
+enum TxngDocumentStatus {
+  PENDING_REVIEW    // Chờ An Hà xem xét
+  APPROVED          // An Hà đã duyệt, chờ ký số
+  REJECTED          // An Hà từ chối
+  ANHA_SIGNED       // An Hà đã ký số, chờ nộp bộ
+  SUBMITTED         // Đã nộp lên hệ thống bộ thành công
+  SUBMISSION_FAILED // Nộp lên bộ thất bại
+}
